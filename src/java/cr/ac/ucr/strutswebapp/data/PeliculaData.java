@@ -16,7 +16,7 @@ import java.util.LinkedList;
  */
 public class PeliculaData extends BaseData{
 
-    public PeliculaData() {
+    public PeliculaData() throws SQLException{
     }//constructor
     
     public LinkedList<Actor> getActores(int codPelicula) throws SQLException{
@@ -124,5 +124,39 @@ public class PeliculaData extends BaseData{
         
     }
     
-    
+    public void eliminar(int codPelicula) throws SQLException{
+        String sqlDeletePelicula = "DELETE FROM Pelicula WHERE cod_pelicula=?";
+        String sqlDeletePeliculaActor = 
+                "DELETE FROM Pelicula_Actor WHERE cod_pelicula=?";
+        
+        Connection conexion = this.getConnection();
+        
+        try {
+            conexion.setAutoCommit(false);//a partir de aqui es nuestra 
+                                         //responsabilidad hacer el commit o rollback
+            PreparedStatement stmtDeletePelicula = 
+                    conexion.prepareStatement(sqlDeletePelicula);
+            stmtDeletePelicula.setInt(1, codPelicula);
+            PreparedStatement stmtDeletePeliculaActor = 
+                    conexion.prepareStatement(sqlDeletePeliculaActor);
+            stmtDeletePeliculaActor.setInt(1, codPelicula);
+            
+            //El orden de ejecucion es importante
+            stmtDeletePeliculaActor.executeUpdate();
+            stmtDeletePelicula.executeUpdate();
+            conexion.commit();
+            stmtDeletePelicula.close();
+            stmtDeletePeliculaActor.close();
+            
+        } catch (SQLException e) {
+            conexion.rollback();           
+            throw  e;//volver a lanzar la excepcion para 
+                    //darle el tratamiento en la capa de aplicacion
+        }
+        
+        if(conexion != null){
+            conexion.close();
+        }
+        
+    }
 }//end class PeliculaData

@@ -8,7 +8,7 @@
 <struts-config>
     <form-beans>
         <form-bean name="peliculaForm" type="cr.ac.ucr.strutswebapp.application.form.PeliculaForm"/>
-    
+        <form-bean name="generoForm" type="cr.ac.ucr.strutswebapp.application.form.GeneroForm"/>
     </form-beans>
     
     <global-exceptions>
@@ -17,14 +17,27 @@
 
     <global-forwards>
         <forward name="welcome"  path="/Welcome.do"/>
-        <forward name="success" path="/exito.jsp"/>
+        <forward name="success" path="/exito.jsp"/>     
+        <forward name="noExito" path="/no_exito.jsp"/>
     </global-forwards>
 
     <action-mappings>
-        <action input="/insertar_pelicula.jsp" name="peliculaForm" parameter="metodo" path="/insertarPelicula" 
-                scope="request" type="cr.ac.ucr.strutswebapp.application.action.InsertarPeliculaAction" validate="false"/>
-        <action path="/verPeliculas" type="cr.ac.ucr.strutswebapp.application.action.VerPeliculasAction"
-                scope="request" validate="false" input="/ver_peliculas.jsp" parameter="metodo"/>
+        <action input="/eliminar_genero.jsp" name="generoForm" 
+                parameter="metodo" path="/eliminarGenero" 
+                scope="request" validate="false"
+                type="cr.ac.ucr.strutswebapp.application.action.EliminarGeneroAction"/>
+        <action input="/editar_genero.jsp" name="generoForm" parameter="metodo"
+                path="/editarGenero" scope="request" validate="false"
+                type="cr.ac.ucr.strutswebapp.application.action.EditarGeneroAction"/>
+        <action input="/listar_generos.jsp" name="generoForm" parameter="metodo"
+                path="/listarGeneros" scope="request" validate="false"
+                type="cr.ac.ucr.strutswebapp.application.action.ListarGenerosAction"/>
+        <action input="/insertar_pelicula.jsp" name="peliculaForm" parameter="metodo" 
+                path="/insertarPelicula" scope="request" validate="false"
+                type="cr.ac.ucr.strutswebapp.application.action.InsertarPeliculaAction"/>
+        <action path="/verPeliculas" scope="request" validate="false"
+                input="/ver_peliculas.jsp" parameter="metodo"
+                type="cr.ac.ucr.strutswebapp.application.action.VerPeliculasAction"/>
         <action path="/Welcome" forward="/welcomeStruts.jsp"/>
     </action-mappings>
     
