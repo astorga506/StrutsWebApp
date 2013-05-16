@@ -12,7 +12,7 @@ public class PeliculaBusiness {
     
     private PeliculaData peliculaData;
 
-    public PeliculaBusiness() {
+    public PeliculaBusiness() throws SQLException{
         
         peliculaData = new PeliculaData();
     }
